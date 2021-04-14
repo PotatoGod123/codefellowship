@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header></header>
+<main>
+    <div th:if="${user}">
+        <a href="logout">Logout</a>
+    </div>
+
+
+  <h1 th:text="'Welcome '+${user}+'!'"></h1>
+
+
+</main>
+</body>
+</html>
