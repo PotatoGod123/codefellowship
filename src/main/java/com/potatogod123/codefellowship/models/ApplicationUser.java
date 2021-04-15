@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -22,9 +23,19 @@ public class ApplicationUser implements UserDetails {
     String lastName;
     String dateOfBirth;
 
-    @Lob
+    @Column(columnDefinition = "Text")
     private String bio;
 
+    @OneToMany( mappedBy = "applicationUser", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<Post> posts;
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 
     public long getId() {
         return id;
@@ -109,4 +120,6 @@ public class ApplicationUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

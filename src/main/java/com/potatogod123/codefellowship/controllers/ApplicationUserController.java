@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -70,26 +71,36 @@ public class ApplicationUserController {
     }
 
     @GetMapping("/userinfo")
-    public String userInfo(Principal p, Model m){
-        System.out.println(p);
+    public RedirectView userInfoRequest(Principal p){
+        ApplicationUser user = applicationUserRepository.findByUsername(p.getName());
+        return new RedirectView("/userinfo/"+user.getId());
+    }
 
+
+
+    @GetMapping("/userinfo/{id}")
+    public String userInfo(@PathVariable Long id, Principal p, Model m){
+        System.out.println(p);
         if(p!=null){
             m.addAttribute("user", p.getName());
+            ApplicationUser person= applicationUserRepository.getOne(id);
+            m.addAttribute("person",person);
         }
+
         return "userinfo.html";
     }
 
     @GetMapping("/login")
     public String login(){
-        System.out.println("hello");
+        System.out.println("loginPage");
         return "login.html";
     }
-//
-//    @PostMapping("/loggingIn")
-//    public String logging(){
-//
-//
-//    }
+
+
+    @GetMapping("/allpost")
+    public String allPost(){
+        return "allpost.html";
+    }
 
     @GetMapping("/signup")
     public String signUp(){
