@@ -52,7 +52,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //authorization stuff
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/signup","login").permitAll()
+                .antMatchers("/signup","/login","/application-user").permitAll()
+                .anyRequest().authenticated()
 
 
                 .and()
@@ -62,10 +63,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
                 .and()
-                .logout()
-                .logoutSuccessUrl("/login");
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID");// remove the cookie altogether
+                .logout();
 
 
     }
